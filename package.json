@@ -1,0 +1,24 @@
+{
+    "name": "Api",
+    "version": "1.0.0",
+    "keywords": [
+        "util",
+        "functional",
+        "server",
+        "client",
+        "browser"
+    ],
+    "author": "SOE-students",
+    "contributors": [
+        "Sergio Edward Rios Cruz",
+        "Luis Ariel Vega Soliz"
+    ],
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "sqlite3": "^4.1.1"
+    },
+    "scripts": {
+        "start": "node server.js"
+    }
+}
