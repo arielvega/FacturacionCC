@@ -35,14 +35,14 @@ app.post('/personas/', function (request, response) {
 app.get('/personas/', function (request, response) {
     const mcPersonas = require('./controllers/personas.js');
     var cpersonas = new mcPersonas.Personas();
-    cpersonas.addReadyListener(listener(response));
+    cpersonas.addReadyListener(listener(response).listen);
     cpersonas.list();
 });
 
 app.get('/personas/:nit', function (request, response) {
     const mcPersonas = require('./controllers/personas.js');
     var cpersonas = new mcPersonas.Personas();
-    cpersonas.addReadyListener(listener(response));
+    cpersonas.addReadyListener(listener(response).listen);
     cpersonas.get(request.params.nit);
 });
 

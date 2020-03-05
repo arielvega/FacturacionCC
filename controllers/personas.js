@@ -1,4 +1,5 @@
 const mPersona = require('../domainobjects/persona.js');
+const EventEmitter = require('events').EventEmitter;
 
 
 module.exports = {
@@ -6,52 +7,56 @@ module.exports = {
 
         const sqlite3 = require('sqlite3').verbose();
         var _db = new sqlite3.Database('./data/data.db');
-        
+
         var listeners = {readyListeners: []};
-        
-        this.addReadyListener = function (listener){
+
+        this.addReadyListener = function (listener) {
             listeners.readyListeners[listeners.readyListeners.length] = listener;
         }
-        
-        function _notifyReady(data){
+
+        function _notifyReady(data) {
             for (var i = 0; i < listeners.readyListeners.length; i++) {
-                listeners.readyListeners[i].listen(data);
+                listeners.readyListeners[i](data);
             }
         }
-        
+
         this.notifyReady = _notifyReady;
 
         this.list = function () {
             var sql = "SELECT nit,nombre FROM persona";
-            _db.all(sql, [], function(err, rows) {
-                if (err) {
-                    return console.error(err.message);
-                }
-                resultlist = [];
-                for (var i = 0; i < rows.length; i++) {
-                    row = rows[i];
-                    resultlist[resultlist.length] = new mPersona.Persona(row.nombre, row.nit);
-                }
-                _notifyReady(resultlist);
-            });
+            _db.all(sql, [], _listFunction);
+        };
+
+        function _listFunction(err, rows) {
+            if (err) {
+                return console.error(err.message);
+            }
+            resultlist = [];
+            for (var i = 0; i < rows.length; i++) {
+                row = rows[i];
+                resultlist[resultlist.length] = new mPersona.Persona(row.nombre, row.nit);
+            }
+            _notifyReady(resultlist);
         };
 
         this.get = function (nit) {
             var sql = "SELECT nit,nombre FROM persona WHERE nit = ?";
-            _db.get(sql, [nit], function(err, row) {
-                if (err) {
-                    return console.error(err.message);
-                }
-                result = (row
+            _db.get(sql, [nit], _getFunction);
+        };
+
+        function _getFunction(err, row) {
+            if (err) {
+                return console.error(err.message);
+            }
+            result = (row
                     ? new mPersona.Persona(row.nombre, row.nit)
                     : {});
-                _notifyReady(result);
+            _notifyReady(result);
 
-            });
         };
 
         this.save = function (persona) {
-            if(!(persona instanceof mPersona.Persona)) {
+            if (!(persona instanceof mPersona.Persona)) {
                 return false;
             }
             var stmt = _db.prepare("INSERT OR IGNORE INTO persona VALUES (?,?)");
