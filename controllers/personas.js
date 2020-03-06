@@ -7,12 +7,11 @@ class Personas extends Repository {
         super();
         const sqlite3 = require('sqlite3').verbose();
         this._db = new sqlite3.Database('./data/data.db');
-        global.PersonasObject = this;
     }
 
     list() {
         var sql = "SELECT nit,nombre FROM persona";
-        this._db.all(sql, [], this._listFunction);
+        this._db.all(sql, [], this._listFunction.bind(this));
     }
     
     _listFunction(err, rows) {
@@ -24,12 +23,12 @@ class Personas extends Repository {
             var row = rows[i];
             resultlist[resultlist.length] = new mPersona.Persona(row.nombre, row.nit);
         }
-        global.PersonasObject.notifyReady(resultlist);
+        this.notifyReady(resultlist);
     }
     
     get(nit) {
         var sql = "SELECT nit,nombre FROM persona WHERE nit = ?";
-        this._db.get(sql, [nit], this._getFunction);
+        this._db.get(sql, [nit], this._getFunction.bind(this));
     }
     
     _getFunction(err, row) {
@@ -39,7 +38,7 @@ class Personas extends Repository {
         var result = (row
                 ? new mPersona.Persona(row.nombre, row.nit)
                 : {});
-        global.PersonasObject.notifyReady(result);
+        this.notifyReady(result);
     }
     
     save(persona) {
