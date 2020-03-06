@@ -1,4 +1,10 @@
-class Repository {
+const EventLauncher = require('./events.js').EventLauncher;
+
+class Repository extends EventLauncher{
+    constructor(){
+        super();
+    }
+    
     get(id){
         throw new Error("Sin implementar!!!");
     }

@@ -7,18 +7,7 @@ class Personas extends Repository {
         super();
         const sqlite3 = require('sqlite3').verbose();
         this._db = new sqlite3.Database('./data/data.db');
-        this.listeners = {readyListeners: []};
         global.PersonasObject = this;
-    }
-    
-    addReadyListener(listener) {
-        this.listeners.readyListeners[this.listeners.readyListeners.length] = listener;
-    }
-
-    notifyReady(data) {
-        for (var i = 0; i < this.listeners.readyListeners.length; i++) {
-            this.listeners.readyListeners[i](data);
-        }
     }
 
     list() {
