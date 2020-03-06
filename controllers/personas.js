@@ -1,5 +1,5 @@
 const mPersona = require('../domainobjects/persona.js');
-const EventEmitter = require('events').EventEmitter;
+const Repository = require('../framework/repository');
 
 
 module.exports = {
