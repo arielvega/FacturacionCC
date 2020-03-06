@@ -1,5 +1,5 @@
 const mPersona = require('../domainobjects/persona.js');
-const Repository = require('../framework/repository');
+const Repository = require('../framework/repository.js');
 
 
 module.exports = {
