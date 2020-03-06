@@ -63,7 +63,7 @@ Con postman, usando el metodo GET se puede ingresar a la direccion http://localh
 ```
 Facturacion 
  └ controllers                      → Controladores del dominio (Patrón Repository)
-    └ persona.js                    → Controlador de personas a las que se hacen las facturas
+    └ personas.js                    → Controlador de personas a las que se hacen las facturas
  └ data                             → Folder de las bases de datos
     └ data.db                       → Base de datos principal
  └ doc                              → Folder de los diagramas del sistema
