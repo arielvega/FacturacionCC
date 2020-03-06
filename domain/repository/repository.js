@@ -1,4 +1,4 @@
-const EventLauncher = require('./events.js').EventLauncher;
+const EventLauncher = require('../events/events.js').EventLauncher;
 
 class Repository extends EventLauncher{
     constructor(){

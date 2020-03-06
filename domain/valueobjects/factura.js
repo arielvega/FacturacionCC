@@ -2,7 +2,7 @@ const mPersona = require('./persona.js');
 const mMonto = require('./monto.js');
 const mEstado = require('./estado.js');
 
-var Test = require('../framework/tester.js');
+var Test = require('./tester.js');
 
 module.exports = {
     Factura: function(persona, monto, fecha, estado){

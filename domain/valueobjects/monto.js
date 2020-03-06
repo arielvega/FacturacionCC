@@ -1,5 +1,5 @@
 const mMoneda = require('./moneda.js');
-var Test = require('../framework/tester.js');
+var Test = require('./tester.js');
 
 module.exports = {
     Monto: function (valor, moneda) {

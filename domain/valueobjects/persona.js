@@ -1,4 +1,5 @@
-var Test = require('../framework/tester.js');
+
+var Test = require('./tester.js');
 
 module.exports = {
     Persona: function(nombre, nit){

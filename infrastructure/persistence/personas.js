@@ -1,5 +1,5 @@
-const mPersona = require('../domainobjects/persona.js');
-const Repository = require('../framework/repository.js');
+const mPersona = require('../../domain/valueobjects/persona.js');
+const Repository = require('../../domain/repository/repository.js');
 
 class Personas extends Repository {
     

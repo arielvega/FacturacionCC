@@ -28,7 +28,7 @@ var Test = function () {
             throw new Error("La cadena no debe ser vacia");
         }
         return cadena;
-    }
+    };
 
     return {
         isA: isA,
