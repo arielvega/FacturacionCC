@@ -2,7 +2,7 @@ var Test = function () {
     var isA = function (type, data) {
         var testIsA = data instanceof type;
         if (!testIsA) {
-            throw new Error("dato no valido");
+            throw new Error(type.name + " no valido");
         }
         return data;
     };
