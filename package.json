@@ -19,6 +19,6 @@
         "sqlite3": "^4.1.1"
     },
     "scripts": {
-        "start": "node webapi/server.js"
+        "start": "node CA/webapi/server.js"
     }
 }
