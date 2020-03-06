@@ -1,15 +1,12 @@
+var Test = require('../framework/tester.js');
+
 module.exports = {
     Moneda: function (nombre) {
         var MONEY_VALUES = {
             "BOB": "Bs.", "USD": "$us."
         };
-        this.nombre = function testNombre(_nombre) {
-            var val = MONEY_VALUES[_nombre];
-            if (!val) {
-                throw new Error("Moneda no valida");
-            }
-            return _nombre;
-        }(nombre);
+        
+        this.nombre = Test.isIn(MONEY_VALUES,nombre);
 
         this.abreviacion = MONEY_VALUES[this.nombre];
 

@@ -1,19 +1,11 @@
+var Test = require('../framework/tester.js');
+
 module.exports = {
     Persona: function(nombre, nit){
-        this.nombre = function testNombre(_nombre){
-            if (_nombre.length == 0){
-                throw new Error("El nombre no debe ser vacio");
-            }
-            return _nombre;
-        }(nombre);
+
+        this.nombre = Test.isString(nombre);
         
-        this.nit = function testNit(_nit){
-            _nit = Number.parseInt(_nit);
-            if (!Number.isInteger(_nit) || (_nit < 0)){
-                throw new Error("NIT no debe ser menor a 0");
-            }
-            return _nit;
-        }(nit);
+        this.nit = Test.isPositiveInteger(nit);
         
         this.equals = function(persona) {
             var isPersona = persona instanceof Persona;

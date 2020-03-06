@@ -1,3 +1,4 @@
+var Test = require('../framework/tester.js');
 
 module.exports = {
     Estado: function (nombre) {
@@ -5,13 +6,7 @@ module.exports = {
             "Emitida": "E", "Anulada": "A", "Entregada": "N", "Revertida": "R",  "Declarada": "D",
         };
 
-        this.nombre = function testNombre(_nombre) {
-            var val = STATUS_VALUES[_nombre];
-            if (!val) {
-                throw new Error("Estado no valido");
-            }
-            return _nombre;
-        }(nombre);
+        this.nombre = Test.isIn(STATUS_VALUES, nombre);
 
         this.abreviacion = STATUS_VALUES[this.nombre];
 
