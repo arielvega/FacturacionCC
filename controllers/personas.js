@@ -1,76 +1,67 @@
 const mPersona = require('../domainobjects/persona.js');
 const Repository = require('../framework/repository.js');
 
-
-module.exports = {
-    Personas: function () {
-
+class Personas extends Repository {
+    
+    constructor() {
+        super();
         const sqlite3 = require('sqlite3').verbose();
-        var _db = new sqlite3.Database('./data/data.db');
+        this._db = new sqlite3.Database('./data/data.db');
+        this.listeners = {readyListeners: []};
+        global.PersonasObject = this;
+    }
+    
+    addReadyListener(listener) {
+        this.listeners.readyListeners[this.listeners.readyListeners.length] = listener;
+    }
 
-        var listeners = {readyListeners: []};
-
-        this.addReadyListener = function (listener) {
-            listeners.readyListeners[listeners.readyListeners.length] = listener;
+    notifyReady(data) {
+        for (var i = 0; i < this.listeners.readyListeners.length; i++) {
+            this.listeners.readyListeners[i](data);
         }
+    }
 
-        function _notifyReady(data) {
-            for (var i = 0; i < listeners.readyListeners.length; i++) {
-                listeners.readyListeners[i](data);
-            }
+    list() {
+        var sql = "SELECT nit,nombre FROM persona";
+        this._db.all(sql, [], this._listFunction);
+    }
+    
+    _listFunction(err, rows) {
+        if (err) {
+            return console.error(err.message);
         }
-
-        this.notifyReady = _notifyReady;
-
-        this.list = function () {
-            var sql = "SELECT nit,nombre FROM persona";
-            _db.all(sql, [], _listFunction);
-        };
-
-        function _listFunction(err, rows) {
-            if (err) {
-                return console.error(err.message);
-            }
-            resultlist = [];
-            for (var i = 0; i < rows.length; i++) {
-                row = rows[i];
-                resultlist[resultlist.length] = new mPersona.Persona(row.nombre, row.nit);
-            }
-            _notifyReady(resultlist);
-        };
-
-        this.get = function (nit) {
-            var sql = "SELECT nit,nombre FROM persona WHERE nit = ?";
-            _db.get(sql, [nit], _getFunction);
-        };
-
-        function _getFunction(err, row) {
-            if (err) {
-                return console.error(err.message);
-            }
-            result = (row
-                    ? new mPersona.Persona(row.nombre, row.nit)
-                    : {});
-            _notifyReady(result);
-
-        };
-
-        this.save = function (persona) {
-            if (!(persona instanceof mPersona.Persona)) {
-                return false;
-            }
-            var stmt = _db.prepare("INSERT OR IGNORE INTO persona VALUES (?,?)");
-            stmt.run(persona.nit, persona.nombre);
-            stmt.finalize();
-            return true;
-        };
-
-        this.delete = function (nit) {
-
-        };
-
-        Object.freeze(this);
+        var resultlist = [];
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            resultlist[resultlist.length] = new mPersona.Persona(row.nombre, row.nit);
+        }
+        global.PersonasObject.notifyReady(resultlist);
+    }
+    
+    get(nit) {
+        var sql = "SELECT nit,nombre FROM persona WHERE nit = ?";
+        this._db.get(sql, [nit], this._getFunction);
+    }
+    
+    _getFunction(err, row) {
+        if (err) {
+            return console.error(err.message);
+        }
+        var result = (row
+                ? new mPersona.Persona(row.nombre, row.nit)
+                : {});
+        global.PersonasObject.notifyReady(result);
+    }
+    
+    save(persona) {
+        if (!(persona instanceof mPersona.Persona)) {
+            return false;
+        }
+        var stmt = this._db.prepare("INSERT OR IGNORE INTO persona VALUES (?,?)");
+        stmt.run(persona.nit, persona.nombre);
+        stmt.finalize();
+        return true;
     }
 }
 
-
+module.exports = {Personas}
