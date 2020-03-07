@@ -21,7 +21,7 @@ class Facturas extends Repository {
         var resultlist = [];
         for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
-            resultlist[resultlist.length] = new mPersona.Persona(row.nombre, row.nit);
+            resultlist[resultlist.length] = new mFactura.Factura(row.persona, row.monto , row.fecha, row.estado) ;
         }
         this.notifyReady(resultlist);
     }
@@ -36,17 +36,17 @@ class Facturas extends Repository {
             return console.error(err.message);
         }
         var result = (row
-                ? new mPersona.Persona(row.nombre, row.nit)
+                ? new mFactura.Factura(row.persona, row.monto , row.fecha, row.estado)
                 : {});
         this.notifyReady(result);
     }
     
     save(factura) {
-        if (!(factura instanceof mPersona.Persona)) {
+        if (!(factura instanceof mFactura.Factura)) {
             return false;
         }
         var stmt = this._db.prepare("INSERT OR IGNORE INTO factura VALUES (?,?,?,?,?)");
-        stmt.run(persona.nit, persona.nombre);
+        stmt.run(factura.fecha, factura.estado,factura.monto , factura.persona );
         stmt.finalize();
         return true;
     }
