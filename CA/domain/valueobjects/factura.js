@@ -1,14 +1,16 @@
 const mPersona = require('./persona.js');
-const mMonto = require('./monto.js');
+const mMoneda = require('./moneda.js');
 const mEstado = require('./estado.js');
 
 var Test = require('./tester.js');
 
 module.exports = {
-    Factura: function(persona, monto, fecha, estado){
+    Factura: function(persona, monto, moneda, fecha, estado){
         this.persona = Test.isA(mPersona.Persona, persona);
         
-        this.monto = Test.isA(mMonto.Monto, monto);
+        this.monto = Test.isPositiveInteger(monto);
+        
+        this.moneda = Test.isA(mMoneda.Moneda, moneda);
         
         this.fecha = Test.isA(Date, fecha);
         
