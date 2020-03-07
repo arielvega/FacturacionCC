@@ -78,13 +78,16 @@ app.get('/facturas/:nit', function (request,response){
 })
 
 app.post('/facturas/', function (request, response) {
-    const persona =  require('../infrastructure/persistence/personas.js');
-    var cfacturas = new persona.Personas()    
-    cfacturas.addReadyListener(listener(response).listen)
-    var personaV = cfacturas.get(request.params.nit)
+    
+    const mPersona = require('../domain/valueobjects/persona.js');
+    var persona = new mPersona.Persona(request.body.persona.nombre, request.body.persona.nit);
+    
+    const mcPersonas = require('../infrastructure/persistence/personas.js');
+    var cpersonas = new mcPersonas.Personas();
+    cpersonas.save(persona);
 
     const mFactura = require('../domain/valueobjects/factura.js');
-    var factura = new mFactura.Factura(personaV , request.body.monto , request.body.moneda , request.body.fecha , request.body.estado );
+    var factura = new mFactura.Factura(persona , request.body.monto , request.body.moneda , request.body.fecha , request.body.estado );
 
     const mcFactura = require('../infrastructure/persistence/factura.js');
     var cfacturas = new mcFactura.Facturas();
