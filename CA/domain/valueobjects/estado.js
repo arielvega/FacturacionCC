@@ -1,5 +1,5 @@
 
-var Test = require('./tester.js');
+var DataChecker = require('../../framework/checker.js');
 
 module.exports = {
     Estado: function (nombre) {
@@ -7,7 +7,7 @@ module.exports = {
             "Emitida": "E", "Anulada": "A", "Entregada": "N", "Revertida": "R",  "Declarada": "D",
         };
 
-        this.nombre = Test.isIn(STATUS_VALUES, nombre);
+        this.nombre = DataChecker.isIn(STATUS_VALUES, nombre);
 
         this.abreviacion = STATUS_VALUES[this.nombre];
 

@@ -1,5 +1,5 @@
 
-var Test = require('./tester.js');
+var DataChecker = require('../../framework/checker.js');
 
 module.exports = {
     Moneda: function (nombre) {
@@ -7,7 +7,7 @@ module.exports = {
             "BOB": "Bs.", "USD": "$us."
         };
         
-        this.nombre = Test.isIn(MONEY_VALUES,nombre);
+        this.nombre = DataChecker.isIn(MONEY_VALUES,nombre);
 
         this.abreviacion = MONEY_VALUES[this.nombre];
 

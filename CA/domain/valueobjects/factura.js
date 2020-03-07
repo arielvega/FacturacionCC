@@ -2,19 +2,19 @@ const mPersona = require('./persona.js');
 const mMoneda = require('./moneda.js');
 const mEstado = require('./estado.js');
 
-var Test = require('./tester.js');
+var DataChecker = require('../../framework/checker.js');
 
 module.exports = {
     Factura: function(persona, monto, moneda, fecha, estado){
-        this.persona = Test.isA(mPersona.Persona, persona);
+        this.persona = DataChecker.isA(mPersona.Persona, persona);
         
-        this.monto = Test.isPositiveInteger(monto);
+        this.monto = DataChecker.isPositiveInteger(monto);
         
-        this.moneda = Test.isA(mMoneda.Moneda, moneda);
+        this.moneda = DataChecker.isA(mMoneda.Moneda, moneda);
         
-        this.fecha = Test.isA(Date, fecha);
+        this.fecha = DataChecker.isA(Date, fecha);
         
-        this.estado = Test.isA(mEstado.Estado, estado);
+        this.estado = DataChecker.isA(mEstado.Estado, estado);
         
         Object.freeze(this);
     }

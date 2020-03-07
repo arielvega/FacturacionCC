@@ -1,12 +1,12 @@
 
-var Test = require('./tester.js');
+var DataChecker = require('../../framework/checker.js');
 
 module.exports = {
     Persona: function(nombre, nit){
 
-        this.nombre = Test.isString(nombre);
+        this.nombre = DataChecker.isString(nombre);
         
-        this.nit = Test.isPositiveInteger(nit);
+        this.nit = DataChecker.isPositiveInteger(nit);
         
         this.equals = function(persona) {
             var isPersona = persona instanceof Persona;

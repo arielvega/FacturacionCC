@@ -1,4 +1,4 @@
-var Test = function () {
+var DataChecker = function () {
     var isA = function (type, data) {
         var testIsA = data instanceof type;
         if (!testIsA) {
@@ -38,6 +38,6 @@ var Test = function () {
     };
 }();
 
-module.exports = Test;
+module.exports = DataChecker;
 
 

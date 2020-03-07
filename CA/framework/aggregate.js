@@ -1,5 +1,5 @@
 
-var Test = require('../domain/valueobjects/tester.js');
+var DataChecker = require('./checker.js');
 
 class IInternalEventHandler {
     handle(event){
@@ -73,7 +73,7 @@ class AggregateRoot extends IInternalEventHandler {
     }
 
     _ApplyToEntity(entity, event) {
-        entity = Test.isA(IInternalEventHandler, entity);
+        entity = DataChecker.isA(IInternalEventHandler, entity);
         entity.Handle(event);
     }
 

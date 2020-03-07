@@ -1,20 +1,17 @@
 
+const mEvents = require('../../domain/events/events.js');
+
+const Commands = require('../../infrastructure/commands/v1/personas.js');
 
 
 module.exports = function (app) {
-    
-    app.route('/personas/:nombre/:nit')
-            .get(function (request, response) {
-                const persona = require('../../domain/valueobjects/persona.js');
-                var p = new persona.Persona(request.params.nombre, request.params.nit);
-                response.send(p);
-            });
 
-
+    //CreatePersona
     app.route('/personas/')
             .post(function (request, response) {
-                const mPersona = require('../../domain/valueobjects/persona.js');
-                var persona = new mPersona.Persona(request.body.nombre, request.body.nit);
+                var createPersona = new Commands.CreatePersona(request.body);
+                const Persona = require('../../domain/valueobjects/persona.js').Persona;
+                var persona = new Persona(createPersona.nombre, createPersona.nit);
 
                 const mcPersonas = require('../../infrastructure/persistence/personas.js');
                 var cpersonas = new mcPersonas.Personas();
@@ -22,25 +19,26 @@ module.exports = function (app) {
                 response.send(result);
             });
 
-
+    //ListPersonas
     app.route('/personas/')
             .get(function (request, response) {
-                const mcPersonas = require('../../infrastructure/persistence/personas.js');
-                var cpersonas = new mcPersonas.Personas();
+                var listPersonas = new Commands.ListPersonas();
+                const Personas = require('../../infrastructure/persistence/personas.js').Personas;
+                var cpersonas = new Personas();
 
-                const mEvents = require('../../domain/events/events.js');
                 cpersonas.addReadyListener(mEvents.Listener(response).listen);
                 cpersonas.list();
             });
 
+    //GetPersona
     app.route('/personas/:nit')
             .get(function (request, response) {
-                const mcPersonas = require('../../infrastructure/persistence/personas.js');
-                var cpersonas = new mcPersonas.Personas();
+                var getPersona = new Commands.GetPersona(request.params);
+                const Personas = require('../../infrastructure/persistence/personas.js').Personas;
+                var cpersonas = new Personas();
 
-                const mEvents = require('../../domain/events/events.js');
                 cpersonas.addReadyListener(mEvents.Listener(response).listen);
-                cpersonas.get(request.params.nit);
+                cpersonas.get(getPersona.nit);
             });
 };
 
