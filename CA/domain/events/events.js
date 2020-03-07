@@ -28,6 +28,14 @@ class EventLauncher {
     }
 }
 
-module.exports = {EventLauncher}
+
+function Listener(responder){
+    this.listen = function(list){
+        responder.send(list);
+    };
+    return this;
+}
+
+module.exports = {EventLauncher, Listener}
 
 
