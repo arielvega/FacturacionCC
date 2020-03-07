@@ -49,7 +49,7 @@ app.get('/personas/:nit', function (request, response) {
 
 app.get('/monedas/:nombre', function (request, response) {
     const moneda = require('../domain/valueobjects/moneda.js');
-    var m = new moneda.Moneda(request.params.nombre);
+    var m = new moneda.Moneda(request.params.nombre);    
     response.send(m);
 });
 
@@ -61,6 +61,39 @@ app.get('/montos/:moneda/:valor', function (request, response) {
     var mnt = new monto.Monto(request.params.valor, m);
     response.send(mnt);
 });
+
+//Factura
+app.get('/facturas/', function (request,response){
+    const factura =  require('../domain/valueobjects/factura.js');
+    var cfacturas = new factura.Facturas()    
+    cfacturas.addReadyListener(listener(response).listen)
+    cfacturas.list()
+})
+
+app.get('/facturas/:nit', function (request,response){
+    const factura =  require('../infrastructure/persistence/facturas.js');
+    var cfacturas = new factura.Facturas()    
+    cfacturas.addReadyListener(listener(response).listen)
+    cfacturas.get(request.params.nit)
+})
+
+app.post('/facturas/', function (request, response) {
+    const persona =  require('../infrastructure/persistence/personas.js');
+    var cfacturas = new persona.Personas()    
+    cfacturas.addReadyListener(listener(response).listen)
+    var personaV = cfacturas.get(request.params.nit)
+
+    const mFactura = require('../domain/valueobjects/factura.js');
+    var factura = new mFactura.Factura(personaV , request.body.monto , request.body.moneda , request.body.fecha , request.body.estado );
+
+    const mcFactura = require('../infrastructure/persistence/factura.js');
+    var cfacturas = new mcFactura.Facturas();
+    var result = cfacturas.save(factura);
+    response.send(result);
+});
+
+
+
 
 
 console.log("Servidor listo en http://localhost:3000");

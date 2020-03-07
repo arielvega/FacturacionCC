@@ -10,7 +10,7 @@ class Facturas extends Repository {
     }
 
     list() {
-        var sql = "SELECT f.fecha,m.nombre as moneda, f.monto , p.nit as NIT , p.nombre as Nombre , f.estado FROM factura as f INNER JOIN moneda as m ON f.monedaFK = m.id INNER JOIN persona as p ON f.personaFK = p.nit";
+        var sql = "SELECT f.fecha, f.monto , p.nit as NIT , p.nombre as Nombre , f.estado FROM factura as f INNER JOIN persona as p ON f.personaFK = p.nit";
         this._db.all(sql, [], this._listFunction.bind(this));
     }
     
@@ -27,7 +27,7 @@ class Facturas extends Repository {
     }
 
     get(nit) {
-        var sql = "SELECT f.fecha,m.nombre as moneda, f.monto , p.nit as NIT , p.nombre as Nombre , f.estado FROM factura as f INNER JOIN moneda as m ON f.monedaFK = m.id INNER JOIN persona as p ON f.personaFK = p.nit WHERE p.nit = ?";
+        var sql = "SELECT f.fecha, f.monto , p.nit as NIT , p.nombre as Nombre , f.estado FROM factura as f INNER JOIN persona as p ON f.personaFK = p.nit WHERE p.nit = ?";
         this._db.get(sql, [nit], this._getFunction.bind(this));
     }
     
