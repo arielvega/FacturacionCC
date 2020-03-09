@@ -42,7 +42,9 @@ class HandlerFactoryV1 extends FactoryHandler {
 }
 
 var HandlerFactoryFactory = function(command){
-    var factories = {'v1' : new HandlerFactoryV1()};
+    var factories = {
+        'v1' : new HandlerFactoryV1()
+    };
     return factories[command.version].getHandler(command);
 }
 
