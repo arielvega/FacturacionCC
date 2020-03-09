@@ -32,7 +32,7 @@ class CreateFacturaHandler extends CommandHandler {
 }
 
 
-class GetFacturaHandler extends CommandHandler {
+class GetFacturasHandler extends CommandHandler {
     constructor() {
         super();
     }
@@ -60,6 +60,6 @@ class ListFacturasHandler extends CommandHandler {
     }
 }
 
-module.exports = {CreateFacturaHandler, GetFacturaHandler, ListFacturasHandler};
+module.exports = {CreateFacturaHandler, GetFacturasHandler, ListFacturasHandler};
 
 

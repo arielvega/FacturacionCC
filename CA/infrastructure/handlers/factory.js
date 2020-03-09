@@ -34,8 +34,8 @@ class HandlerFactoryV1 extends FactoryHandler {
         if (command instanceof CommandsFacturasV1.ListFacturas){
             return new HandlersFacturasV1.ListFacturasHandler();
         }
-        if (command instanceof CommandsFacturasV1.GetFactura){
-            return new HandlersFacturasV1.GetFacturaHandler();
+        if (command instanceof CommandsFacturasV1.GetFacturas){
+            return new HandlersFacturasV1.GetFacturasHandler();
         }
         throw new Error("Sin implementar!!!");
     }

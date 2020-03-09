@@ -15,10 +15,10 @@ module.exports = function (app) {
                 handler.handle(command);
             });
 
-    //GetFactura
+    //GetFacturas
     app.route('/facturas/:nit')
             .get(function (request, response) {
-                var command = new Commands.GetFactura(request.params);
+                var command = new Commands.GetFacturas(request.params);
                 var handler = HandlersFactory(command);
                 handler.addReadyListener(mEvents.Listener(response).listen);
                 handler.handle(command);

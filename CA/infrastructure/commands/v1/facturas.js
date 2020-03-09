@@ -54,7 +54,7 @@ class CreateFactura extends CommandV1{
     }
 }
 
-class GetFactura extends CommandV1{
+class GetFacturas extends CommandV1{
     constructor(data){
         super();
         this._nit = 0;
@@ -76,6 +76,6 @@ class ListFacturas extends CommandV1{
     }
 }
 
-module.exports = {CreateFactura, GetFactura, ListFacturas};
+module.exports = {CreateFactura, GetFacturas, ListFacturas};
 
 
