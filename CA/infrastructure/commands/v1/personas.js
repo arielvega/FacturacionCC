@@ -1,7 +1,7 @@
 var DataChecker = require('../../../framework/checker.js');
-const Command = require('../commands.js').Command;
+const CommandV1 = require('../commands.js').CommandV1;
 
-class CreatePersona extends Command{
+class CreatePersona extends CommandV1{
     constructor(data){
         super();
         this._nombre = '_';
@@ -26,7 +26,7 @@ class CreatePersona extends Command{
     }
 }
 
-class GetPersona extends Command{
+class GetPersona extends CommandV1{
     constructor(data){
         super();
         this._nit = 0;
@@ -42,7 +42,7 @@ class GetPersona extends Command{
     }
 }
 
-class ListPersonas extends Command{
+class ListPersonas extends CommandV1{
     constructor(){
         super();
     }

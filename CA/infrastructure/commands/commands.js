@@ -1,6 +1,7 @@
+const EventLauncher = require('../../domain/events/events.js').EventLauncher;
+
 class Command {
     constructor() {
-
     }
 
     load(object) {
@@ -11,12 +12,34 @@ class Command {
             }
         }
     }
-}
-
-class CommandHandler {
-    handle(command) {
+    
+    get version(){
         throw new Error("Sin implementar!!!");
     }
 }
 
-module.exports = {Command, CommandHandler};
+class CommandHandler extends EventLauncher{
+    constructor() {
+        super();
+    }
+
+    handle(command) {
+        throw new Error("Sin implementar!!!");
+    }
+    
+    listen(data){
+        this.notifyReady(data);
+    }
+}
+
+class CommandV1 extends Command{
+    constructor() {
+        super();
+    }
+    
+    get version(){
+        return 'v1';
+    }
+}
+
+module.exports = {Command, CommandHandler, CommandV1};

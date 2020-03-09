@@ -5,14 +5,14 @@ class EventLauncher {
     }
 
     addReadyListener(listener) {
-        this.listen('ready', listener);
+        this.addListener('ready', listener);
     }
 
     notifyReady(data) {
         this.emit('ready', data);
     }
 
-    listen(event, listener) {
+    addListener(event, listener) {
         if (this.listeners[event] == null) {
             this.listeners[event] = [];
         }

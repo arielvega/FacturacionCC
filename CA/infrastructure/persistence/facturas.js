@@ -36,24 +36,24 @@ class Facturas extends Repository {
 
     get(nit) {
         var sql = "SELECT f.fecha, f.monto, f.moneda, p.nit as NIT , p.nombre as Nombre , f.estado FROM factura as f INNER JOIN persona as p ON f.personaFK = p.nit WHERE p.nit = ?";
-        this._db.get(sql, [nit], this._getFunction.bind(this));
+        this._db.all(sql, [nit], this._getFunction.bind(this));
     }
 
-    _getFunction(err, row) {
+    _getFunction(err, rows) {
         if (err) {
             return console.error(err.message);
         }
-        var result;
-        if (row) {
+        var resultlist = [];
+        for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
             var persona = new mPersona.Persona(row.Nombre, row.NIT);
             var moneda = new mMoneda.Moneda(row.moneda);
             var estado = new mEstado.Estado(row.estado);
             var fecha = new Date(row.fecha);
-            result = new mFactura.Factura(persona, row.monto, moneda, fecha, estado);
-        } else {
-            result = {};
+            
+            resultlist[resultlist.length] = new mFactura.Factura(persona, row.monto, moneda, fecha, estado);
         }
-        this.notifyReady(result);
+        this.notifyReady(resultlist);
     }
 
     save(factura) {
