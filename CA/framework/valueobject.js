@@ -1,6 +1,6 @@
 class Value {
-    checkVality(data){
-        throw new Error("Sin implementar!!!");
+    constructor(value){
+        this.Value = value;
     }
 }
 

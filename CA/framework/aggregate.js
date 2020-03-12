@@ -7,8 +7,7 @@ class IInternalEventHandler {
     }
 }
 
-class Entity extends IInternalEventHandler
-{
+class Entity extends IInternalEventHandler {
 
     constructor() {
         super();
@@ -69,7 +68,7 @@ class AggregateRoot extends IInternalEventHandler {
     }
 
     clearChanges() {
-        this._changes.Clear();
+        this._changes = [];
     }
 
     _ApplyToEntity(entity, event) {

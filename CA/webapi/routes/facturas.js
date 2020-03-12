@@ -1,5 +1,5 @@
 
-const mEvents = require('../../domain/events/events.js');
+const mEvents = require('../../framework/events.js');
 
 const Commands = require('../../infrastructure/commands/v1/facturas.js');
 const HandlersFactory = require('../../infrastructure/handlers/factory.js');

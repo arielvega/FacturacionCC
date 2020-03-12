@@ -1,4 +1,4 @@
-const EventLauncher = require('../../domain/events/events.js').EventLauncher;
+const EventLauncher = require('../../framework/events.js').EventLauncher;
 
 class Command {
     constructor() {
