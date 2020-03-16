@@ -7,8 +7,6 @@ class CreateFactura extends CommandV1{
         this._persona = {nombre: '', nit: 0};
         this._monto = 0;
         this._moneda = '';
-        this._estado = '';
-        this._fecha = '';
         this.load(data);
     }
     

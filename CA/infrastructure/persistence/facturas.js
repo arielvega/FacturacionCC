@@ -1,7 +1,8 @@
-const mFactura = require('../../domain/valueobjects/factura.js');
-const mPersona = require('../../domain/valueobjects/persona.js');
-const mEstado = require('../../domain/valueobjects/estado.js');
-const mMoneda = require('../../domain/valueobjects/moneda.js');
+
+const Factura = require('../../domain/factura.js');
+const Persona = require('../../domain/persona.js');
+const EstadosFactura = require('../../domain/enums/estados.js').EstadosFactura;
+const Monedas = require('../../domain/enums/monedas.js').Monedas;
 const Repository = require('../../domain/repository/repository.js');
 
 class Facturas extends Repository {
@@ -13,7 +14,7 @@ class Facturas extends Repository {
     }
 
     list() {
-        var sql = "SELECT f.id, f.fecha, f.monto, f.moneda, p.nit as NIT , p.nombre as Nombre , f.estado FROM factura as f INNER JOIN persona as p ON f.personaFK = p.nit";
+        var sql = "SELECT f.facturaId, f.fecha, f.monto, f.moneda, p.nit AS personaId, p.nit, p.nombre, f.estado FROM factura as f INNER JOIN persona as p ON f.personaId = p.nit";
         this._db.all(sql, [], this._listFunction.bind(this));
     }
 
@@ -24,18 +25,18 @@ class Facturas extends Repository {
         var resultlist = [];
         for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
-            var persona = new mPersona.Persona(row.Nombre, row.NIT);
-            var moneda = new mMoneda.Moneda(row.moneda);
-            var estado = new mEstado.Estado(row.estado);
+            var persona = (new Persona())._loadFrom({"personaId": row.personaId, "nit": row.nit, "nombre": row.nombre});
+            var moneda = row.moneda;
+            var estado = row.estado;
             var fecha = new Date(row.fecha);
-            
-            resultlist[resultlist.length] = new mFactura.Factura(persona, row.monto, moneda, fecha, estado);
+
+            resultlist[resultlist.length] = (new Factura())._loadFrom({"facturaId": row.facturaId, "persona": persona, "monto": row.monto, "moneda": moneda, "fecha": fecha, "estado": estado});
         }
         this.notifyReady(resultlist);
     }
 
     get(nit) {
-        var sql = "SELECT f.fecha, f.monto, f.moneda, p.nit as NIT , p.nombre as Nombre , f.estado FROM factura as f INNER JOIN persona as p ON f.personaFK = p.nit WHERE p.nit = ?";
+        var sql = "SELECT f.facturaId, f.fecha, f.monto, f.moneda, p.nit AS personaId, p.nit, p.nombre, f.estado FROM factura as f INNER JOIN persona as p ON f.personaId = p.nit WHERE p.nit = ?";
         this._db.all(sql, [nit], this._getFunction.bind(this));
     }
 
@@ -46,24 +47,24 @@ class Facturas extends Repository {
         var resultlist = [];
         for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
-            var persona = new mPersona.Persona(row.Nombre, row.NIT);
-            var moneda = new mMoneda.Moneda(row.moneda);
-            var estado = new mEstado.Estado(row.estado);
+            var persona = (new Persona())._loadFrom({"personaId": row.personaId, "nit": row.nit, "nombre": row.nombre});
+            var moneda = row.moneda;
+            var estado = row.estado;
             var fecha = new Date(row.fecha);
-            
-            resultlist[resultlist.length] = new mFactura.Factura(persona, row.monto, moneda, fecha, estado);
+
+            resultlist[resultlist.length] = (new Factura())._loadFrom({"facturaId": row.facturaId, "persona": persona, "monto": row.monto, "moneda": moneda, "fecha": fecha, "estado": estado});;
         }
         this.notifyReady(resultlist);
     }
 
     save(factura) {
-        if (!(factura instanceof mFactura.Factura)) {
+        if (!(factura instanceof Factura)) {
             return false;
         }
-        var stmt = this._db.prepare("INSERT OR IGNORE INTO factura (fecha,estado,monto,moneda,personaFK) VALUES (?,?,?,?,?)");
-        stmt.run(factura.fecha, factura.estado.nombre, factura.monto, factura.moneda.nombre, factura.persona.nit);
+        var stmt = this._db.prepare("INSERT INTO factura (fecha,estado,monto,moneda,personaId) VALUES (?,?,?,?,?)");
+        stmt.run(factura.fecha, factura.estado, factura.monto.value, factura.moneda.value, factura.personaId);
         stmt.finalize();
-        return true;
+        return this._db.lastInsertRowId;
     }
 }
 

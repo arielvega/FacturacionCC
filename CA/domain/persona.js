@@ -2,32 +2,51 @@
 const AggregateRoot = require('../framework/aggregate.js').AggregateRoot;
 const EventsPersona = require('./events/persona.js');
 
+
+const PersonaId = require('./valueobjects/personaid.js');
 const Nombre500 = require('./valueobjects/nombre500.js');
-var DataChecker = require('../framework/checker.js');
+const NITEnteroPositivo = require('./valueobjects/nitenteropositivo.js');
 
-class Persona extends AggregateRoot{
-    
-    constructor(nombre, nit) {
+
+class Persona extends AggregateRoot {
+
+    constructor(data) {
         super();
-        this._Apply(new EventsPersona.PersonaCreated(id, nombre, nit));
-    }
-
-    equals(persona) {
-        var isPersona = persona instanceof Persona;
-        if (isPersona && persona.nombre == this.nombre && persona.nit == this.nit) {
-            return true;
-        } else {
-            return false;
+        if (data) {
+            this._Apply(new EventsPersona.PersonaCreated(data.personaId, data.nit, data.nombre));
         }
     }
 
     _When(event) {
         if (event instanceof EventsPersona.PersonaCreated) {
-            this._id = event.id;
-            this._nombre = Nombre500.fromString(event.nombre);
+            this._loadFrom(event);
         }
+    }
+
+    _loadFrom(data) {
+        this._id = new PersonaId(data.personaId);
+        this._personaId = this._id.value;
+        this._nit = NITEnteroPositivo.fromNumber(data.nit);
+        this._nombre = Nombre500.fromString(data.nombre);
+        return this;
+    }
+
+    _ValidateStatus() {
+        ;
+    }
+
+    get personaId() {
+        return this._personaId;
+    }
+
+    get nombre() {
+        return this._nombre;
+    }
+
+    get nit() {
+        return this._nit;
     }
 }
 
 
-module.exports = { Persona };
+module.exports = Persona;

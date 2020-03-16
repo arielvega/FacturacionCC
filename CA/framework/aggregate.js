@@ -1,25 +1,49 @@
 
-var DataChecker = require('./checker.js');
+var DataTester = require('./tester.js');
+const Value = require('./valueobject.js').Value;
 
 class IInternalEventHandler {
-    handle(event){
+    handle(event) {
         throw new Error("Sin implementar!!!");
     }
 }
 
-class Entity extends IInternalEventHandler {
-
+class DataStruct extends IInternalEventHandler {
     constructor() {
         super();
         this._id = 0;
     }
 
-    _setApplier(applier) {
-        this._applier = applier;
+    get id() {
+        return this._id;
     }
 
-    _applier(event) {
+    _loadFrom(data) {
         throw new Error("Sin implementar!!!");
+    }
+
+    toJSON() {
+        var res = {};
+        for (var prop in this) {
+            if ((prop != '_id') && !prop.startsWith('__')) {
+                var field = prop.replace('_', '');
+                var object = this[prop];
+                if (DataTester.isA(Value, object)) {
+                    res[field] = object.value;
+                } else {
+                    res[field] = object;
+                }
+            }
+        }
+        return res;
+    }
+}
+
+class Entity extends DataStruct {
+
+    constructor(applier) {
+        super();
+        this._applier = applier;
     }
 
     _When(event) {
@@ -31,22 +55,17 @@ class Entity extends IInternalEventHandler {
         this._applier(event);
     }
 
-    get Id() {
-        return this._id;
-    }
-
     handle(event) {
         this._When(event);
     }
 }
 
 
-class AggregateRoot extends IInternalEventHandler {
+class AggregateRoot extends DataStruct {
 
     constructor() {
         super();
-        this._id = 0;
-        this._changes = [];
+        this.__changes = [];
     }
 
     _ValidateStatus() {
@@ -59,25 +78,21 @@ class AggregateRoot extends IInternalEventHandler {
 
     _Apply(event) {
         this._When(event);
-        this._applier(event);
-        this._changes[this._changes.length] = event;
+        this._ValidateStatus();
+        this.__changes[this.__changes.length] = event;
     }
 
     getChanges() {
-        this._changes.slice();
+        this.__changes.slice();
     }
 
     clearChanges() {
-        this._changes = [];
+        this.__changes = [];
     }
 
     _ApplyToEntity(entity, event) {
-        entity = DataChecker.isA(IInternalEventHandler, entity);
+        entity = DataTester.isA(IInternalEventHandler, entity);
         entity.Handle(event);
-    }
-
-    get Id() {
-        return this._id;
     }
 
     handle(event) {

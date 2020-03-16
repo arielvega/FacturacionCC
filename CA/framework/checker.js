@@ -7,6 +7,14 @@ var DataChecker = function () {
         return data;
     };
 
+    var isPositiveNumber = function (_valor) {
+        _valor = Number.parseFloat(_valor);
+        if (Number.isNaN(_valor) || (_valor < 0)) {
+            throw new Error("Valor no debe ser menor a 0: " + _valor);
+        }
+        return _valor;
+    };
+
     var isPositiveInteger = function (_valor) {
         _valor = Number.parseInt(_valor);
         if (!Number.isInteger(_valor) || (_valor < 0)) {
@@ -33,6 +41,7 @@ var DataChecker = function () {
     return {
         isA: isA,
         isPositiveInteger: isPositiveInteger,
+        isPositiveNumber: isPositiveNumber,
         isIn: isIn,
         isString: isString
     };

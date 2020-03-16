@@ -6,23 +6,17 @@ class CreateFacturaHandler extends CommandHandler {
     }
 
     handle(command) {
-        const Persona = require('../../../domain/valueobjects/persona.js').Persona;
-        var persona = new Persona(command.persona.nombre, command.persona.nit);
+        const Persona = require('../../../domain/persona.js');
+        var persona = new Persona({"personaId": command.persona.nit, "nombre": command.persona.nombre, "nit": command.persona.nit});
 
         const Personas = require('../../persistence/personas.js').Personas;
         var cpersonas = new Personas();
         cpersonas.save(persona);
 
-        const Moneda = require('../../../domain/valueobjects/moneda.js').Moneda;
-        var moneda = new Moneda(command.moneda);
+        var fecha = new Date();
 
-        var fecha = new Date(command.fecha);
-
-        const Estado = require('../../../domain/valueobjects/estado.js').Estado;
-        var estado = new Estado(command.estado);
-
-        const Factura = require('../../../domain/valueobjects/factura.js').Factura;
-        var factura = new Factura(persona, command.monto, moneda, fecha, estado);
+        const Factura = require('../../../domain/factura.js');
+        var factura = new Factura({"persona": persona, "monto": command.monto, "moneda": command.moneda, "fecha": fecha});
 
         const Facturas = require('../../persistence/facturas.js').Facturas;
         var cfacturas = new Facturas();

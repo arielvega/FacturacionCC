@@ -1,5 +1,5 @@
-const Value = require('../framework/valueobject.js').Value;
-var DataTester = require('../../framework/checker.js');
+const Value = require('../../framework/valueobject.js').Value;
+var DataTester = require('../../framework/tester.js');
 
 class Nombre500 extends Value {
     constructor(data) {

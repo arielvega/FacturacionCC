@@ -6,8 +6,8 @@ class CreatePersonaHandler extends CommandHandler {
     }
 
     handle(command) {
-        const Persona = require('../../../domain/valueobjects/persona.js').Persona;
-        var persona = new Persona(command.nombre, command.nit);
+        const Persona = require('../../../domain/persona.js');
+        var persona = new Persona({"personbaId": command.nit, "nit": command.nit, "nombre": command.nombre});
 
         const mcPersonas = require('../../persistence/personas.js');
         var cpersonas = new mcPersonas.Personas();

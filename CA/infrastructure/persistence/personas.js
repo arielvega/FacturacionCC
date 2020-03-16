@@ -1,4 +1,5 @@
-const mPersona = require('../../domain/valueobjects/persona.js');
+
+const Persona = require('../../domain/persona.js');
 const Repository = require('../../domain/repository/repository.js');
 
 class Personas extends Repository {
@@ -10,7 +11,7 @@ class Personas extends Repository {
     }
 
     list() {
-        var sql = "SELECT nit,nombre FROM persona";
+        var sql = "SELECT nit AS personaId, nit,nombre FROM persona";
         this._db.all(sql, [], this._listFunction.bind(this));
     }
     
@@ -21,13 +22,13 @@ class Personas extends Repository {
         var resultlist = [];
         for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
-            resultlist[resultlist.length] = new mPersona.Persona(row.nombre, row.nit);
+            resultlist[resultlist.length] = (new Persona())._loadFrom(row);
         }
         this.notifyReady(resultlist);
     }
     
     get(nit) {
-        var sql = "SELECT nit,nombre FROM persona WHERE nit = ?";
+        var sql = "SELECT nit AS personaId, nit,nombre FROM persona WHERE nit = ?";
         this._db.get(sql, [nit], this._getFunction.bind(this));
     }
     
@@ -36,19 +37,19 @@ class Personas extends Repository {
             return console.error(err.message);
         }
         var result = (row
-                ? new mPersona.Persona(row.nombre, row.nit)
+                ? (new Persona())._loadFrom(row)
                 : {});
         this.notifyReady(result);
     }
     
     save(persona) {
-        if (!(persona instanceof mPersona.Persona)) {
+        if (!(persona instanceof Persona)) {
             return false;
         }
         var stmt = this._db.prepare("INSERT OR IGNORE INTO persona VALUES (?,?)");
-        stmt.run(persona.nit, persona.nombre);
+        stmt.run(persona.nit.value, persona.nombre.value);
         stmt.finalize();
-        return true;
+        return this._db.lastInsertRowId;
     }
 }
 
