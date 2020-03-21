@@ -1,6 +1,15 @@
 const CommandHandler = require('../../commands/commands.js').CommandHandler;
 
-class CreatePersonaHandler extends CommandHandler {
+class PersonaCommandHandler extends CommandHandler {
+    constructor() {
+        super();
+        const PersonasRepository = require('../../persistence/personasrepository.js');
+        this.personasrepository = new PersonasRepository();
+        this.personasrepository.addReadyListener(this.listen.bind(this));
+    }
+}
+
+class CreatePersonaHandler extends PersonaCommandHandler {
     constructor() {
         super();
     }
@@ -8,39 +17,28 @@ class CreatePersonaHandler extends CommandHandler {
     handle(command) {
         const Persona = require('../../../domain/persona.js');
         var persona = new Persona({"personbaId": command.nit, "nit": command.nit, "nombre": command.nombre});
-
-        const PersonasRepository = require('../../persistence/personasrepository.js');
-        var cpersonas = new PersonasRepository();
-        var result = cpersonas.save(persona);
+        var result = this.personasrepository.save(persona);
         this.notifyReady(result);
     }
 }
 
-class GetPersonaHandler extends CommandHandler {
+class GetPersonaHandler extends PersonaCommandHandler {
     constructor() {
         super();
     }
 
     handle(command) {
-        const PersonasRepository = require('../../persistence/personasrepository.js');
-        var cpersonas = new PersonasRepository();
-
-        cpersonas.addReadyListener(this.listen.bind(this));
-        cpersonas.get(command.nit);
+        this.personasrepository.get(command.nit);
     }
 }
 
-class ListPersonasHandler extends CommandHandler {
+class ListPersonasHandler extends PersonaCommandHandler {
     constructor() {
         super();
     }
 
     handle(command) {
-        const PersonasRepository = require('../../persistence/personasrepository.js');
-        var cpersonas = new PersonasRepository();
-
-        cpersonas.addReadyListener(this.listen.bind(this));
-        cpersonas.list();
+        this.personasrepository.list();
     }
 }
 

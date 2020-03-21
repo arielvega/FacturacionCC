@@ -1,6 +1,15 @@
 const CommandHandler = require('../../commands/commands.js').CommandHandler;
 
-class CreateFacturaHandler extends CommandHandler {
+class FacturaCommandHandler extends CommandHandler {
+    constructor() {
+        super();
+        const FacturasRepository = require('../../persistence/facturasrepository.js');
+        this.facturasrepository = new FacturasRepository();
+        this.facturasrepository.addReadyListener(this.listen.bind(this));
+    }
+}
+
+class CreateFacturaHandler extends FacturaCommandHandler {
     constructor() {
         super();
     }
@@ -18,39 +27,30 @@ class CreateFacturaHandler extends CommandHandler {
         const Factura = require('../../../domain/factura.js');
         var factura = new Factura({"persona": persona, "monto": command.monto, "moneda": command.moneda, "fecha": fecha});
 
-        const FacturasRepository = require('../../persistence/facturasrepository.js');
-        var cfacturas = new FacturasRepository();
-        var result = cfacturas.save(factura);
+        var result = this.facturasrepository.save(factura);
         this.notifyReady(result);
     }
 }
 
 
-class GetFacturasHandler extends CommandHandler {
+class GetFacturasHandler extends FacturaCommandHandler {
     constructor() {
         super();
     }
 
     handle(command) {
-        const FacturasRepository = require('../../persistence/facturasrepository.js');
-        var cfacturas = new FacturasRepository();
-        cfacturas.addReadyListener(this.listen.bind(this));
-        cfacturas.get(command.nit);
+        this.facturasrepository.get(command.nit);
     }
 }
 
 
-class ListFacturasHandler extends CommandHandler {
+class ListFacturasHandler extends FacturaCommandHandler {
     constructor() {
         super();
     }
 
     handle(command) {
-        const FacturasRepository = require('../../persistence/facturasrepository.js');
-        var cfacturas = new FacturasRepository();
-
-        cfacturas.addReadyListener(this.listen.bind(this))
-        cfacturas.list()
+        this.facturasrepository.list();
     }
 }
 
