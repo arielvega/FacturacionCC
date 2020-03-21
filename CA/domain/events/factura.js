@@ -1,4 +1,6 @@
-class FacturaCreated {
+const SystemEvent = require('./systemevent.js');
+
+class FacturaCreated extends SystemEvent {
     constructor(facturaId, persona, monto, moneda, fecha){
         this.facturaId = facturaId;
         this.persona = persona;

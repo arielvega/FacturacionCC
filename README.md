@@ -74,6 +74,7 @@ FacturacionCC
  |  |  └ events/                    → Eventos del sistema
  |  |  |  └ factura.js              → Eventos relacionados a las facturas
  |  |  |  └ persona.js              → Eventos relacionados a las personas
+ |  |  |  └ systemevents.js         → Clase base de los eventos del sistema
  |  |  └ repository/                → Repositorios del sistema
  |  |  |  └ repository.js           → Clase base para los repositorios del sistema
  |  |  └ valueobjects/              → Patrón ValueObject

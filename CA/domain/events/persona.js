@@ -1,4 +1,6 @@
-class PersonaCreated {
+const SystemEvent = require('./systemevent.js');
+
+class PersonaCreated extends SystemEvent {
     constructor(personaId, nit, nombre){
         this.personaId = personaId;
         this.nit = nit;
