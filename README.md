@@ -1,5 +1,9 @@
-# Facturacion
-Tercer práctico del sexto modulo de la Maestria MDEIS
+# FacturacionCC
+Tercer práctico del sexto modulo de la Maestria MDEIS, usando Clean Architecture.
+
+Clean Architecture es una arquitectura que describió Uncle Bob en su blog y aunque existen otras muchas todas tienen el mismo objetivo, que es la separación de intereses o principios (separation of concerns).
+
+![Diagrama Clean Architecture del Tio Bob](doc/UncleBobCA.png?raw=true "Diagrama Clean Architecture del Tio Bob")
 
 ## Guia de inicio rápido (< 2mn)
 
