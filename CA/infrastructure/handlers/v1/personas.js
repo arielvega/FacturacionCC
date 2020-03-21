@@ -9,7 +9,7 @@ class CreatePersonaHandler extends CommandHandler {
         const Persona = require('../../../domain/persona.js');
         var persona = new Persona({"personbaId": command.nit, "nit": command.nit, "nombre": command.nombre});
 
-        const PersonasRepository = require('../../persistence/personasrepository.js').PersonasRepository;
+        const PersonasRepository = require('../../persistence/personasrepository.js');
         var cpersonas = new PersonasRepository();
         var result = cpersonas.save(persona);
         this.notifyReady(result);
@@ -22,7 +22,7 @@ class GetPersonaHandler extends CommandHandler {
     }
 
     handle(command) {
-        const PersonasRepository = require('../../persistence/personasrepository.js').PersonasRepository;
+        const PersonasRepository = require('../../persistence/personasrepository.js');
         var cpersonas = new PersonasRepository();
 
         cpersonas.addReadyListener(this.listen.bind(this));
@@ -36,7 +36,7 @@ class ListPersonasHandler extends CommandHandler {
     }
 
     handle(command) {
-        const PersonasRepository = require('../../persistence/personasrepository.js').PersonasRepository;
+        const PersonasRepository = require('../../persistence/personasrepository.js');
         var cpersonas = new PersonasRepository();
 
         cpersonas.addReadyListener(this.listen.bind(this));

@@ -53,4 +53,4 @@ class PersonasRepository extends Repository {
     }
 }
 
-module.exports = {PersonasRepository}
+module.exports = PersonasRepository;

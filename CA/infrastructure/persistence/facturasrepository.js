@@ -68,4 +68,4 @@ class FacturasRepository extends Repository {
     }
 }
 
-module.exports = {FacturasRepository}
+module.exports = FacturasRepository;
