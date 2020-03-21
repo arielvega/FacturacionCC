@@ -103,8 +103,8 @@ FacturacionCC
  |  |  |  |  └ personas.js          → Manejadores de los comandos relativos a las personas
  |  |  |  └ factory.js              → Fabrica abstracta de manejadores de los comandos del sistema
  |  |  └ persistence/               → Controladores para la persistencia del sistema
- |  |  |  └ facturas.js             → Controlador de las facturas
- |  |  |  └ personas.js             → Controlador de personas a las que se hacen las facturas
+ |  |  |  └ facturasrepository.js   → Repositorio de las facturas
+ |  |  |  └ personasrepository.js   → Repositorio de personas a las que se hacen las facturas
  |  └ webapi/                       → Clases relacionadas a los servicios web de la API
  |     └ routes/                    → Controladores de rutas de la API
  |     |  └ facturas.js             → Rutas para la API de facturas

@@ -5,7 +5,7 @@ const EstadosFactura = require('../../domain/enums/estados.js').EstadosFactura;
 const Monedas = require('../../domain/enums/monedas.js').Monedas;
 const Repository = require('../../domain/repository/repository.js');
 
-class Facturas extends Repository {
+class FacturasRepository extends Repository {
 
     constructor() {
         super();
@@ -68,4 +68,4 @@ class Facturas extends Repository {
     }
 }
 
-module.exports = {Facturas}
+module.exports = {FacturasRepository}

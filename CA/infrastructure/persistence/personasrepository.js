@@ -2,7 +2,7 @@
 const Persona = require('../../domain/persona.js');
 const Repository = require('../../domain/repository/repository.js');
 
-class Personas extends Repository {
+class PersonasRepository extends Repository {
     
     constructor() {
         super();
@@ -53,4 +53,4 @@ class Personas extends Repository {
     }
 }
 
-module.exports = {Personas}
+module.exports = {PersonasRepository}
