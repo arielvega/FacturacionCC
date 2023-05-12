@@ -8,7 +8,7 @@ Clean Architecture es una arquitectura que describió Uncle Bob en su blog y aun
 ## Guia de inicio rápido (< 2mn)
 
 ```
-git clone https://github.com/Ariel-Edward/FacturacionCC.git
+git clone https://github.com/arielvega/FacturacionCC.git
 cd FacturacionCC
 npm install
 node server.js
@@ -23,7 +23,7 @@ Para poder ejecutar el proyecto se necesita tener instalado NodeJS
 Puede descargarlo en: https://nodejs.org/es/
 
 ### Descargar las fuentes
-Puede descargar el proyecto desde: https://github.com/Ariel-Edward/FacturacionCC/archive/master.zip
+Puede descargar el proyecto desde: https://github.com/arielvega/FacturacionCC/archive/master.zip
 
 ### Instale las dependencias del proyecto
 
